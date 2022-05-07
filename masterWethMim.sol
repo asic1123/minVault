@@ -61,6 +61,7 @@ contract masterWethMim {
     function repayMIM(IMIM _contract, address _from, uint amount) public {
         require(msg.sender==_from, "You have NO right to repay MIM.");
         require((balanceOfMIM[_from]-amount) > 0, "Cannot burn that much.");
+        balanceOfMIM[_from] = balanceOfMIM[_from] - amount;
         _contract.burn(_from, amount);
 
     }
