@@ -1,0 +1,33 @@
+Summary
+ERC20 provides a standard API for Ethereum smart contracts implementing tokens. While all ERC20 tokens share the same API, different implementations of the standard functions have been released by various teams. This proposal slightly modifies the implementation of the transferFrom function in a way that allows a user to provide an unlimited allowance, which can provide significant gas savings.
+
+Specification
+With this proposal, transferFrom only modifies the allowed mapping if allowed[_from][_spender] is less than the maximum unsigned integer (2 ** 256 - 1).
+
+uint constant MAX_UINT = 2**256 - 1;
+
+/// @dev ERC20 transferFrom, modified such that an allowance of MAX_UINT represents an unlimited allowance.
+/// @param _from Address to transfer from.
+/// @param _to Address to transfer to.
+/// @param _value Amount to transfer.
+/// @return Success of transfer.
+function transferFrom(address _from, address _to, uint _value)
+    public
+    returns (bool)
+{
+    uint allowance = allowed[_from][msg.sender];
+    require(balances[_from] >= _value
+            && allowance >= _value
+            && balances[_to] + _value >= balances[_to]);
+    balances[_to] += _value;
+    balances[_from] -= _value;
+    if (allowance < MAX_UINT) {
+        allowed[_from][msg.sender] -= _value;
+    }
+    Transfer(_from, _to, _value);
+    return true;
+}
+Rationale
+There are cases where a token owner is willing to give another address an unlimited allowance. With the current accepted implementation of transferFrom, _value is subtracted from the allowed mapping every single time the function is called. This is an unnecessary (and annoying) state change in the case the token owner wishes to grant an address an unlimited allowance, wasting 5K gas per call of transferFrom. This change is a huge long run efficiency gain and is completely backwards compatible.
+
+I would also like to acknowledge @recmo, who initially proposed this solution.
