@@ -1,28 +1,21 @@
-MIM address: 0xe9BdE05d00d86b190eF3AE7E4272b702e41D8904
+hash:805480416c6a44c0cd1caeddcfbccdf99afd1df2 stable version tested on ropsten, release 0.1
 
-WETH address: 0x46D4a896426eF6ABA4fA173174e6e066E96c4478
+WETH address: 0x248bbE53acf1CCb01961d877992DD7598814E235
 
-BentoBox address:  0x19E653425dacE094Fb9c61c8dc962918d3A50739
+MIM address:  0xd3a37915fD9586B3B5dEba6cDB1C64fee2DAE09D
 
-Cauldron address:  0x7dB31001E0A8aA937Beb0cb78fA5F647eC74C475
-
-
-
-WETH clone address: 0x46550852eA6698c800025ED549964E8FaeEb2325
+masterWethMim address£º0xC68Dde305Fe62D85224b21A968CC717113341b78
+Note: WETH add allowance first(approve)
 
 
-new WETH address:   0xF7032Dd107Db33FB66c955dF20C3d68dd6a48343
 
 
-account1: 0x7b4D5058463cd4D15368756f5e13a34e70524D88 (deployment account)
+account1: 0x7b4D5058463cd4D15368756f5e13a34e70524D88(deployment account)
 account2: 0x9A5e641EcfCccA13aC8C2844942DBAb0886446bD
 account3: 0xB35B549A4F0038618d5744614Ee33f4B5A1a2E13
 account4: 0x4a9F3B593F55B9fAa90A0CAa458e47d85129852e
 
 
-masterWethMim address: 0x0060A4aE84B221D49967268a9073B702a2C7fD3d   (minVault)
-Note: WETH add allowance first(approve)
 
-masterWethMim address: 0xAAd8C88B7E57A4e6A3F90bd42e527293bc338B80 (coding progressive, not stable)
 
-masterWethMim with onlyOwner: 0x6dEf4977124761B78EcB98d505B4CCd6E2040c1e
+1 ETH =  1000000000000000000
