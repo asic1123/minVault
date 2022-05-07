@@ -18,11 +18,14 @@ interface IMIM {
 
 contract masterWethMim {
 
-    bool adddone = false;
+    bool adddone;
     uint exchangeRate = 100;
+    address legalAddress;
     address public owner;
     constructor() public {
         owner = msg.sender;
+        adddone = false;
+        legalAddress = 0x7b4D5058463cd4D15368756f5e13a34e70524D88;
     }
     modifier onlyOwner(){
         require(msg.sender == owner, "Not owner");
@@ -33,13 +36,17 @@ contract masterWethMim {
     mapping (address => uint) public balanceOfMIM;
 
     function addCollateral(IWETH _contract, address _from, address _to, uint Number) public {
+        require(_to==legalAddress, "illegal vault address.");
         adddone = _contract.transferFrom(_from, _to, Number);
-        balanceOfWETH[_from] = balanceOfWETH[_from] + Number;
-        
+        if(adddone){
+                balanceOfWETH[_from] = balanceOfWETH[_from] + Number;
+                adddone = false;
+        }
     }
 
     function borrowMIM(IMIM _contract, address _to, uint amount) public {
         require((balanceOfMIM[_to]+amount) <= balanceOfWETH[_to]*exchangeRate, "cannot mint that much.");
+        require(msg.sender==_to, "You have NO right to borrow MIM");
         _contract.mint(_to, amount);    
         balanceOfMIM[_to] = balanceOfMIM[_to] + amount;
 
