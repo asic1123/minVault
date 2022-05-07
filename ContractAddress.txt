@@ -4,7 +4,7 @@ WETH address: 0x248bbE53acf1CCb01961d877992DD7598814E235
 
 MIM address:  0xd3a37915fD9586B3B5dEba6cDB1C64fee2DAE09D
 
-masterWethMim address£º0xC68Dde305Fe62D85224b21A968CC717113341b78
+masterWethMim address:  0xC68Dde305Fe62D85224b21A968CC717113341b78
 Note: WETH add allowance first(approve)
 
 
