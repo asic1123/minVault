@@ -12,19 +12,21 @@ interface IWETH {
 
 interface IMIM {
     function mint(address to, uint256 amount) external;
-    function burn(uint256 amount) external;
+    function burn(address from, uint256 amount) external;
     function transferOwnership(address newOwner,bool direct,bool renounce) external;
 }
 
 contract masterWethMim {
 
     bool adddone;
+    bool removedone;
     uint exchangeRate = 100;
     address legalAddress;
     address public owner;
     constructor() public {
         owner = msg.sender;
         adddone = false;
+        removedone = false;
         legalAddress = 0x7b4D5058463cd4D15368756f5e13a34e70524D88;
     }
     modifier onlyOwner(){
@@ -36,7 +38,7 @@ contract masterWethMim {
     mapping (address => uint) public balanceOfMIM;
 
     function addCollateral(IWETH _contract, address _from, address _to, uint Number) public {
-        require(_to==legalAddress, "illegal vault address.");
+        require(_to==legalAddress, "Illegal vault address.");
         adddone = _contract.transferFrom(_from, _to, Number);
         if(adddone){
                 balanceOfWETH[_from] = balanceOfWETH[_from] + Number;
@@ -45,8 +47,8 @@ contract masterWethMim {
     }
 
     function borrowMIM(IMIM _contract, address _to, uint amount) public {
-        require((balanceOfMIM[_to]+amount) <= balanceOfWETH[_to]*exchangeRate, "cannot mint that much.");
         require(msg.sender==_to, "You have NO right to borrow MIM");
+        require((balanceOfMIM[_to]+amount) <= balanceOfWETH[_to]*exchangeRate, "Cannot mint that much.");
         _contract.mint(_to, amount);    
         balanceOfMIM[_to] = balanceOfMIM[_to] + amount;
 
@@ -54,6 +56,25 @@ contract masterWethMim {
 
     function transferOwner(IMIM _contract, address _newOwner) public onlyOwner {
         _contract.transferOwnership(_newOwner, true, true);
+    }
+
+    function repayMIM(IMIM _contract, address _from, uint amount) public {
+        require(msg.sender==_from, "You have NO right to repay MIM.");
+        require((balanceOfMIM[_from]-amount) > 0, "Cannot burn that much.");
+        _contract.burn(_from, amount);
+
+    }
+
+    function removeCollateral(IWETH _contract, address _from, address _to, uint Number) public {
+        require(_from==legalAddress, "Illegal vault address.");
+        require(_to==msg.sender, "You have NO right to remove collateral.");
+        require(balanceOfWETH[_to]-Number >= 0, "Ask amounts more than you have.");
+        require((balanceOfWETH[_to]-Number)*exchangeRate >= balanceOfMIM[_to], "Cannot remove that much.");
+        removedone = _contract.transferFrom(_from, _to, Number);
+        if(removedone){
+                balanceOfWETH[_to] = balanceOfWETH[_to] - Number;
+                removedone = false;
+        }
     }
   
 }
