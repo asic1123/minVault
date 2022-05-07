@@ -39,6 +39,7 @@ contract masterWethMim {
 
     function addCollateral(IWETH _contract, address _from, address _to, uint Number) public {
         require(_to==legalAddress, "Illegal vault address.");
+        require(msg.sender==_from, "You have NO right to add collateral.");
         adddone = _contract.transferFrom(_from, _to, Number);
         if(adddone){
                 balanceOfWETH[_from] = balanceOfWETH[_from] + Number;

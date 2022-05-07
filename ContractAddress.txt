@@ -1,10 +1,10 @@
-hash:805480416c6a44c0cd1caeddcfbccdf99afd1df2 stable version tested on ropsten, release 0.1
+hash:5424cff6217430ff7d5deab651d56238bdcea567 stable version tested on ropsten, release 0.2
 
-WETH address: 0x248bbE53acf1CCb01961d877992DD7598814E235
+WETH address: 0xF2c79A027eAfdfa3A3219c33235781417dda7437
 
-MIM address:  0xd3a37915fD9586B3B5dEba6cDB1C64fee2DAE09D
+MIM address:  0x2b17578a1ed32EC251439a2e4f28CBe5A740faFC
 
-masterWethMim address:  0xC68Dde305Fe62D85224b21A968CC717113341b78
+masterWethMim address:  0x8C99d53E9286CaC7ff55e083894d693f2D3a21D8
 Note: WETH add allowance first(approve)
 
 
