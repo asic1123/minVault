@@ -21,14 +21,15 @@ contract masterWethMim {
 
     bool adddone;
     bool removedone;
-    uint exchangeRate = 100;
+    uint price;
     address vaultAddress;
     address public owner;
     constructor() public {
-        owner = msg.sender;
         adddone = false;
         removedone = false;
+        price = 100;
         vaultAddress = msg.sender;
+        owner = msg.sender;
     }
     modifier onlyOwner(){
         require(msg.sender == owner, "Not owner");
@@ -42,9 +43,12 @@ contract masterWethMim {
         vaultAddress = _vaultAddress;
     }
 
+    function setPrice(uint _price) public onlyOwner{
+        price = _price;
+    }
+
     function setApprove(IWETH _contract, address _address, uint amount) private {
         _contract.approve(_address, amount);
-
     }
 
     function addCollateral(IWETH _contract, address _from, address _to, uint Number) public {
@@ -59,10 +63,9 @@ contract masterWethMim {
 
     function borrowMIM(IMIM _contract, address _to, uint amount) public {
         require(msg.sender==_to, "You have NO right to borrow MIM");
-        require((balanceOfMIM[_to]+amount) <= balanceOfWETH[_to]*exchangeRate, "Cannot mint that much.");
+        require((balanceOfMIM[_to]+amount) <= balanceOfWETH[_to]*price, "Cannot mint that much.");
         _contract.mint(_to, amount);    
         balanceOfMIM[_to] = balanceOfMIM[_to] + amount;
-
     }
 
     function transferOwner(IMIM _contract, address _newOwner) public onlyOwner {
@@ -74,14 +77,13 @@ contract masterWethMim {
         require((balanceOfMIM[_from]-amount) >= 0, "Cannot burn that much.");
         balanceOfMIM[_from] = balanceOfMIM[_from] - amount;
         _contract.burn(_from, amount);
-
     }
 
     function removeCollateral(IWETH _contract, address _from, address _to, uint Number) public {
         require(_from==vaultAddress, "Illegal vault address.");
         require(_to==msg.sender, "You have NO right to remove collateral.");
         require(balanceOfWETH[_to]-Number >= 0, "Ask amounts more than you have.");
-        require((balanceOfWETH[_to]-Number)*exchangeRate >= balanceOfMIM[_to], "Cannot remove that much.");
+        require((balanceOfWETH[_to]-Number)*price >= balanceOfMIM[_to], "Cannot remove that much.");
         setApprove(_contract,  _to, Number);
         removedone = _contract.transferFrom(_from, _to, Number);
         if(removedone){
@@ -89,5 +91,4 @@ contract masterWethMim {
                 removedone = false;
         }
     }
-  
 }
