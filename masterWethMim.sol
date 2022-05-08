@@ -42,15 +42,6 @@ contract masterWethMim {
         vaultAddress = _vaultAddress;
     }
 
-    uint constant MAX_UINT = 2**256 - 1;
-    function setApproveMax(IWETH _contract, address _address) public onlyOwner{
-        _contract.approve(_address, MAX_UINT);
-
-    }
-    function setApproveMin(IWETH _contract, address _address) public onlyOwner{
-        _contract.approve(_address, 0);
-
-    }
     function setApprove(IWETH _contract, address _address, uint amount) private {
         _contract.approve(_address, amount);
 
