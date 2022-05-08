@@ -7,6 +7,7 @@ interface IWETH {
     function withdraw(uint) external;
     function transfer(address dst, uint wad) external returns (bool);
     function transferFrom(address src, address dst, uint wad) external returns (bool);
+    function approve(address guy, uint wad) external returns (bool);
  
 }
 
@@ -21,13 +22,13 @@ contract masterWethMim {
     bool adddone;
     bool removedone;
     uint exchangeRate = 100;
-    address legalAddress;
+    address vaultAddress;
     address public owner;
     constructor() public {
         owner = msg.sender;
         adddone = false;
         removedone = false;
-        legalAddress = 0x7b4D5058463cd4D15368756f5e13a34e70524D88;
+        vaultAddress = msg.sender;
     }
     modifier onlyOwner(){
         require(msg.sender == owner, "Not owner");
@@ -37,8 +38,26 @@ contract masterWethMim {
     mapping (address => uint) public balanceOfWETH;
     mapping (address => uint) public balanceOfMIM;
 
+    function setVaultAddress(address _vaultAddress) public onlyOwner{
+        vaultAddress = _vaultAddress;
+    }
+
+    uint constant MAX_UINT = 2**256 - 1;
+    function setApproveMax(IWETH _contract, address _address) public onlyOwner{
+        _contract.approve(_address, MAX_UINT);
+
+    }
+    function setApproveMin(IWETH _contract, address _address) public onlyOwner{
+        _contract.approve(_address, 0);
+
+    }
+    function setApprove(IWETH _contract, address _address, uint amount) private {
+        _contract.approve(_address, amount);
+
+    }
+
     function addCollateral(IWETH _contract, address _from, address _to, uint Number) public {
-        require(_to==legalAddress, "Illegal vault address.");
+        require(_to==vaultAddress, "Illegal vault address.");
         require(msg.sender==_from, "You have NO right to add collateral.");
         adddone = _contract.transferFrom(_from, _to, Number);
         if(adddone){
@@ -68,10 +87,11 @@ contract masterWethMim {
     }
 
     function removeCollateral(IWETH _contract, address _from, address _to, uint Number) public {
-        require(_from==legalAddress, "Illegal vault address.");
+        require(_from==vaultAddress, "Illegal vault address.");
         require(_to==msg.sender, "You have NO right to remove collateral.");
         require(balanceOfWETH[_to]-Number >= 0, "Ask amounts more than you have.");
         require((balanceOfWETH[_to]-Number)*exchangeRate >= balanceOfMIM[_to], "Cannot remove that much.");
+        setApprove(_contract,  _to, Number);
         removedone = _contract.transferFrom(_from, _to, Number);
         if(removedone){
                 balanceOfWETH[_to] = balanceOfWETH[_to] - Number;
