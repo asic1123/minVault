@@ -24,6 +24,7 @@ contract masterWethMim {
     uint price;
     address vaultAddress;
     address wethAddress;
+    address mimAddress;
     address public owner;
     constructor() public {
         adddone = false;
@@ -46,6 +47,10 @@ contract masterWethMim {
 
     function setWethAddress(address _wethAddress) public onlyOwner{
         wethAddress = _wethAddress;
+    }
+    
+    function setMimAddress(address _mimAddress) public onlyOwner{
+        mimAddress = _mimAddress;
     }
 
     function setPrice(uint _price) public onlyOwner{
@@ -80,8 +85,12 @@ contract masterWethMim {
         return balanceOfWETH[msg.sender];
     }
 
-    function borrowMIM(IMIM _contract, address _to, uint amount) public {
-        require(msg.sender==_to, "You have NO right to borrow MIM");
+//    function borrowMIM(IMIM _contract, address _to, uint amount) public {
+    function borrowMIM(uint amount) public {
+//        require(msg.sender==_to, "You have NO right to borrow MIM");
+        IMIM _contract;
+        _contract =  IMIM(mimAddress);
+        address _to = msg.sender;
         require((balanceOfMIM[_to]+amount) <= balanceOfWETH[_to]*price, "Cannot mint that much.");
         _contract.mint(_to, amount);    
         balanceOfMIM[_to] = balanceOfMIM[_to] + amount;
@@ -91,11 +100,15 @@ contract masterWethMim {
         _contract.transferOwnership(_newOwner, true, true);
     }
 
-    function repayMIM(IMIM _contract, address _from, uint amount) public {
-        require(msg.sender==_from, "You have NO right to repay MIM.");
+ //   function repayMIM(IMIM _contract, address _from, uint amount) public {
+    function repayMIM(uint amount) public {
+ //       require(msg.sender==_from, "You have NO right to repay MIM.");
+        IMIM _contract;
+        _contract =  IMIM(mimAddress);
+        address _from = msg.sender;
         require((balanceOfMIM[_from]-amount) >= 0, "Cannot burn that much.");
-        balanceOfMIM[_from] = balanceOfMIM[_from] - amount;
         _contract.burn(_from, amount);
+        balanceOfMIM[_from] = balanceOfMIM[_from] - amount;
     }
 
  //   function removeCollateral(IWETH _contract, address _from, address _to, uint Number) public {
