@@ -23,6 +23,7 @@ contract masterWethMim {
     bool removedone;
     uint price;
     address vaultAddress;
+    address wethAddress;
     address public owner;
     constructor() public {
         adddone = false;
@@ -43,6 +44,10 @@ contract masterWethMim {
         vaultAddress = _vaultAddress;
     }
 
+    function setWethAddress(address _wethAddress) public onlyOwner{
+        wethAddress = _wethAddress;
+    }
+
     function setPrice(uint _price) public onlyOwner{
         price = _price;
     }
@@ -51,9 +56,19 @@ contract masterWethMim {
         _contract.approve(_address, amount);
     }
 
-    function addCollateral(IWETH _contract, address _from, address _to, uint Number) public {
-        require(_to==vaultAddress, "Illegal vault address.");
-        require(msg.sender==_from, "You have NO right to add collateral.");
+ //   function addCollateral(IWETH _contract, address _from, address _to, uint Number) public {
+     function addCollateral(uint Number) public {
+        IWETH _contract;
+        _contract =  IWETH(wethAddress);
+        address _to = vaultAddress;
+        address _from = msg.sender;
+        require(Number > 0, "Wrong input number.");
+        require(Number < 100000000000000000000000000, "maximum 100 millions processing at one time");
+ //       require(_to==vaultAddress, "Illegal vault address.");
+ //       require(msg.sender==_from, "You have NO right to add collateral.");
+ //       _contract.approve(vaultAddress, Number);
+ //       setApprove(_contract, vaultAddress, Number);
+ //     Approve function must be executed in frontend app. here msg.sender is vaultAddress, guy is vaultAddress. it means vaultAddress approve vaultAddress using Number tokens.
         adddone = _contract.transferFrom(_from, _to, Number);
         if(adddone){
                 balanceOfWETH[_from] = balanceOfWETH[_from] + Number;
