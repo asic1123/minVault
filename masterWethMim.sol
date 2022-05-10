@@ -76,6 +76,10 @@ contract masterWethMim {
         }
     }
 
+    function readCollateral() external view returns(uint) {
+        return balanceOfWETH[msg.sender];
+    }
+
     function borrowMIM(IMIM _contract, address _to, uint amount) public {
         require(msg.sender==_to, "You have NO right to borrow MIM");
         require((balanceOfMIM[_to]+amount) <= balanceOfWETH[_to]*price, "Cannot mint that much.");
