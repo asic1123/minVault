@@ -63,7 +63,7 @@ contract masterWethMim {
         address _to = vaultAddress;
         address _from = msg.sender;
         require(Number > 0, "Wrong input number.");
-        require(Number <= 100000000000000000000000000, "Less than 100 millions processing at one time.");
+        require(Number < 100000000000000000000000000, "Less than 100 millions processing at one time.");
  //       require(_to==vaultAddress, "Illegal vault address.");
  //       require(msg.sender==_from, "You have NO right to add collateral.");
  //       _contract.approve(vaultAddress, Number);
@@ -103,7 +103,7 @@ contract masterWethMim {
 //        require(_from==vaultAddress, "Illegal vault address.");
 //        require(_to==msg.sender, "You have NO right to remove collateral.");
         require(Number > 0, "Wrong input number.");
-        require(Number <= 100000000000000000000000000, "Less than 100 millions processing at one time.");
+        require(Number < 100000000000000000000000000, "Less than 100 millions processing at one time.");
         require(balanceOfWETH[_to]-Number >= 0, "Ask amounts more than you have.");
         require((balanceOfWETH[_to]-Number)*price >= balanceOfMIM[_to], "Cannot remove that much.");
         IWETH _contract;
