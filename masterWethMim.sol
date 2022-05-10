@@ -85,6 +85,10 @@ contract masterWethMim {
         return balanceOfWETH[msg.sender];
     }
 
+    function readMim() external view returns(uint) {
+        return balanceOfMIM[msg.sender];
+    }
+
 //    function borrowMIM(IMIM _contract, address _to, uint amount) public {
     function borrowMIM(uint amount) public {
 //        require(msg.sender==_to, "You have NO right to borrow MIM");
