@@ -1,11 +1,20 @@
-hash: 5e71674fb058d68a6a16700b998030919495030f stable version, product code, single user tested pass on ropsten.version0.3
+hash: 71ec8928d5033275a1fd1783a6f7b4edd0c68889 stable version, product code, single user tested pass on ropsten.version0.4
 
-WETH address:           0x3053b12671067fCf54404e9Eb5900c07330d4986
+WETH address:          0x87b6fc684E37b92A62DeB8E00c06c4c7C10DF731
 
-MIM address:            0x0F3e9A496381903a2f2B581256e6468A2DB6E749
+MIM address:           0xC581BD2113eA0D41a8cf9d244C43eEcbAF4eF6ab 
 
-masterWethMim address:  0x530094c4A1Cd8756018fFD6aD60b3Ffc41053a3D
+masterWethMim address: 0x5B1A4acd51c8a3F1a920f06c0E4f0ECCdEf451BE 
 Note: WETH add allowance first(approve)
+
+step1: set vaultAddress
+step2: set wethAddress
+step3: set mimAddress
+step4: set MIM contract's new owner to be vaultAddress
+step5: user deposit some ETH to WETH contract for some WETH
+step6: WETH contract approve user's vaultAddress allowance
+step7: frontend app modify masterWethMim contract's abi and address
+step8: npm start react frontend or using remix for testing using users' account
 
 
 
