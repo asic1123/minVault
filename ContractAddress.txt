@@ -1,10 +1,10 @@
-hash: 71ec8928d5033275a1fd1783a6f7b4edd0c68889 stable version, product code, single user tested pass on ropsten.version0.4
+hash: 2cc641e474c40413f780afefc2a8cf4d70fcd533 stable version, product code, single user tested pass on ropsten.version 0.5
 
-WETH address:          0x87b6fc684E37b92A62DeB8E00c06c4c7C10DF731
+WETH address:          0xd68597e66830aef0c6DE249CdBC16e03d4c1e86a 
 
-MIM address:           0xC581BD2113eA0D41a8cf9d244C43eEcbAF4eF6ab 
+MIM address:           0x00B4bb20a8e8D3a52ddd74EfFA75246Cf6995bF9 
 
-masterWethMim address: 0x5B1A4acd51c8a3F1a920f06c0E4f0ECCdEf451BE 
+masterWethMim address: 0xd972E1681Ad3937f5d405F3789a7ee47857Db939 
 Note: WETH add allowance first(approve)
 
 step1: set vaultAddress
@@ -19,8 +19,8 @@ step8: npm start react frontend or using remix for testing using users' account
 
 
 
-account1: 0x7b4D5058463cd4D15368756f5e13a34e70524D88(deployment account)
-account2: 0x9A5e641EcfCccA13aC8C2844942DBAb0886446bD
+account1: 0x7b4D5058463cd4D15368756f5e13a34e70524D88
+account2: 0x9A5e641EcfCccA13aC8C2844942DBAb0886446bD(deployment account)
 account3: 0xB35B549A4F0038618d5744614Ee33f4B5A1a2E13
 account4: 0x4a9F3B593F55B9fAa90A0CAa458e47d85129852e
 
