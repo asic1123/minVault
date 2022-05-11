@@ -119,15 +119,15 @@ contract masterWethMim {
     function removeCollateral(uint Number) public {
 //        require(_from==vaultAddress, "Illegal vault address.");
 //        require(_to==msg.sender, "You have NO right to remove collateral.");
+        address _to = msg.sender;
+        address _from = vaultAddress;
         require(Number > 0, "Wrong input number.");
         require(Number < 100000000000000000000000000, "Less than 100 millions processing at one time.");
-        require(balanceOfWETH[_to]-Number >= 0, "Ask amounts more than you have.");
+        require(balanceOfWETH[_to] >= Number, "Ask amounts more than you have.");
         require((balanceOfWETH[_to]-Number)*price >= balanceOfMIM[_to], "Cannot remove that much.");
         IWETH _contract;
         _contract =  IWETH(wethAddress);
-        address _to = msg.sender;
-        address _from = vaultAddress;
-        setApprove(_contract,  _to, Number);
+        setApprove(_contract, _to, Number);
         removedone = _contract.transferFrom(_from, _to, Number);
         if(removedone){
                 balanceOfWETH[_to] = balanceOfWETH[_to] - Number;
