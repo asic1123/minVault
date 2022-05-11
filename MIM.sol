@@ -710,7 +710,7 @@ contract MagicInternetMoneyV1 is ERC20, BoringOwnable {
 
         // Limits the amount minted per period to a convergence function, with the period duration restarting on every mint
         uint256 totalMintedAmount = uint256(lastMint.time < block.timestamp - MINTING_PERIOD ? 0 : lastMint.amount).add(amount);
-        require(totalSupply == 0 || totalSupply.mul(MINTING_INCREASE) / MINTING_PRECISION >= totalMintedAmount);
+//        require(totalSupply == 0 || totalSupply.mul(MINTING_INCREASE) / MINTING_PRECISION >= totalMintedAmount);
 
         lastMint.time = block.timestamp.to128();
         lastMint.amount = totalMintedAmount.to128();
