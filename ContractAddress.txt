@@ -9,7 +9,7 @@ Note: WETH add allowance first(approve)
 
 step1: set vaultAddress
 step2: set wethAddress
-step3: set mimAddress
+step3: set mimAddress (remove one line that restrict 24 hour minted amount)
 step4: set MIM contract's new owner to be vaultAddress
 step5: user deposit some ETH to WETH contract for some WETH
 step6: WETH contract approve user's vaultAddress allowance
