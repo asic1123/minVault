@@ -21,7 +21,7 @@ contract masterWethMim {
 
     bool adddone;
     bool removedone;
-    uint price;
+    uint public price;
     address vaultAddress;
     address wethAddress;
     address mimAddress;
